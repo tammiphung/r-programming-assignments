@@ -1,0 +1,68 @@
+---
+title: "My R Markdown Primer"
+author: "Tammi Phung"
+output: html_document
+---
+
+# Introduction
+
+R Markdown is a file format that allows you to combine regular writing, R code, results, and visualizations in one document. The file uses the `.Rmd` extension and can be knitted into a finished report, such as an HTML page. This is useful because the explanations and the code stay together, making it easier to show both the process and the results of an analysis.
+
+# Working with Data
+
+Markdown makes it possible to organize a report with headings, paragraphs, lists, and other formatting. For example, a data analysis report can explain what a dataset contains before showing the code used to explore it. This helps readers understand why the analysis is being done instead of only seeing the output.
+
+## A little math
+
+LaTeX can be used to include mathematical expressions in an R Markdown document. An inline example is $\alpha + \beta = \gamma$.
+
+A displayed equation can be written on its own line:
+
+$$
+y = \beta_0 + \beta_1x + \epsilon
+$$
+
+This equation represents a simple linear relationship, where the outcome is modeled using an intercept, a predictor, and an error term.
+
+# Exploring the `mtcars` Dataset
+
+The first code chunk loads `ggplot2`, uses the built-in `mtcars` dataset, and displays some basic summary statistics.
+
+```{r setup-and-summary, message=FALSE, warning=FALSE}
+library(ggplot2)
+
+data(mtcars)
+
+# View the first few rows
+head(mtcars)
+
+# Calculate summary statistics
+summary(mtcars)
+mean(mtcars$mpg)
+```
+
+The `mtcars` dataset includes information about different car models. For example, `mpg` represents miles per gallon, while `wt` represents vehicle weight. The next chunk creates a scatterplot to explore the relationship between these two variables.
+
+```{r mpg-vs-weight, fig.width=7, fig.height=5}
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point(color = "steelblue", size = 2) +
+  geom_smooth(method = "lm", se = FALSE, color = "darkorange") +
+  labs(
+    title = "Fuel Efficiency and Vehicle Weight",
+    x = "Weight (1,000 lbs)",
+    y = "Miles per Gallon (MPG)"
+  ) +
+  theme_minimal()
+```
+
+The plot helps show the relationship between vehicle weight and fuel efficiency. In this dataset, heavier cars generally have lower miles per gallon. The trend line makes the overall pattern easier to see.
+
+# Reflection
+
+Using R Markdown was helpful because I could put explanations, code, and results in one place. Compared with writing a plain report, I liked that I could run the code and have the output appear directly below the section where I discussed it. This makes the report easier to follow and update if the analysis changes.
+
+One thing I learned is that formatting matters. Headings use `#` symbols, inline code uses backticks, and LaTeX expressions use dollar signs. I also learned that code chunks need the correct opening and closing backticks. When knitting, it is important to check that the code runs and that required packages are installed. A useful tip is to give code chunks clear names and use options such as `message=FALSE` to keep the final report neat.
+
+# Comparing the Source and the Rendered Report
+
+The `.Rmd` file contains the instructions, Markdown text, and R code. The knitted HTML version displays the formatted headings and paragraphs along with the results produced by the code chunks. Reviewing both side by side makes it easier to notice how the source syntax becomes a readable report. For example, the Markdown heading symbols do not appear as symbols in the rendered page, and the R code produces tables, values, and a plot in the output.
